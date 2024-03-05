@@ -1,0 +1,84 @@
+Seed 12
+/content/drive/MyDrive/public-inconsistency-detection-data/results/longformer_jit_cm_bs64lr1e-5_12/model.weights
+Effective batch size: 32 Learning rate: 1e-05
+================================================================================
+TRAINING
+================================================================================
+set hyperparameters
+set optimizer and model
+retrieve training data
+start training
+First time training
+Train f1:  0.5713724076925598
+Train acc:  0.6034012368133866
+Train precision:  0.6215696058165229
+Train recall:  0.5286770947011035
+Validation training
+Valid f1:  0.5267229254571028
+Valid acc:  0.641640042598509
+Valid precision:  0.7753623188405797
+Valid recall:  0.39882854100106496
+New best validation F1 of 0.527. Saving model.
+Epoch 1: train_loss: 0.083 train_precision: 0.622 train_recall: 0.529 train_f1: 0.571 train_acc: 0.603
+	 valid_loss: 0.674 valid_precision: 0.775 valid_recall: 0.399 valid_f1: 0.527 valid_acc: 0.642
+	 01:26:33.38
+First time training
+Train f1:  0.6893695920889987
+Train acc:  0.6952831332605796
+Train precision:  0.7030127316273793
+Train recall:  0.6762459076027646
+Validation training
+Valid f1:  0.6676699272636067
+Valid acc:  0.6472310969116081
+Valid precision:  0.6311047889995258
+Valid recall:  0.7087326943556975
+New best validation F1 of 0.668. Saving model.
+Epoch 2: train_loss: 0.074 train_precision: 0.703 train_recall: 0.676 train_f1: 0.689 train_acc: 0.695
+	 valid_loss: 0.770 valid_precision: 0.631 valid_recall: 0.709 valid_f1: 0.668 valid_acc: 0.647
+	 01:26:38.22
+First time training
+Train f1:  0.7032087287752598
+Train acc:  0.7212925912453013
+Train precision:  0.752002209334438
+Train recall:  0.6603613435188553
+Validation training
+Valid f1:  0.6243386243386243
+Valid acc:  0.6786474973375932
+Valid precision:  0.751310861423221
+Valid recall:  0.5340788072417465
+Epoch 3: train_loss: 0.070 train_precision: 0.752 train_recall: 0.660 train_f1: 0.703 train_acc: 0.721
+	 valid_loss: 0.665 valid_precision: 0.751 valid_recall: 0.534 valid_f1: 0.624 valid_acc: 0.679
+	 01:26:30.73
+First time training
+Train f1:  0.7128115264797508
+Train acc:  0.7317206256820662
+Train precision:  0.7668621700879765
+Train recall:  0.6658785012731903
+Validation training
+Valid f1:  0.6715741789354474
+Valid acc:  0.691160809371672
+Valid precision:  0.717049576783555
+Valid recall:  0.6315228966986155
+New best validation F1 of 0.672. Saving model.
+Epoch 4: train_loss: 0.070 train_precision: 0.767 train_recall: 0.666 train_f1: 0.713 train_acc: 0.732
+	 valid_loss: 0.689 valid_precision: 0.717 valid_recall: 0.632 valid_f1: 0.672 valid_acc: 0.691
+	 01:26:23.85
+First time training
+Train f1:  0.7372680428666266
+Train acc:  0.7480599005699042
+Train precision:  0.7702622366074378
+Train recall:  0.7069843579483448
+Validation training
+Valid f1:  0.6694166175604008
+Valid acc:  0.7012779552715654
+Valid precision:  0.7493403693931399
+Valid recall:  0.6048988285410011
+Epoch 5: train_loss: 0.066 train_precision: 0.770 train_recall: 0.707 train_f1: 0.737 train_acc: 0.748
+	 valid_loss: 0.646 valid_precision: 0.749 valid_recall: 0.605 valid_f1: 0.669 valid_acc: 0.701
+	 01:26:29.06
+================================================================================
+TESTING
+================================================================================
+Restoring the best model weights
+Final evaluation to test set
+test_loss: 0.551 test_precision: 0.801 test_recall: 0.633 test_f1: 0.707 test_acc: 0.738
