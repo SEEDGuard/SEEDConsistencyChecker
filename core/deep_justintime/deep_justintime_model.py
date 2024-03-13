@@ -11,7 +11,7 @@ from .utils.metrics import *
 from .utils.dataset import *
 
 class Deep_JustInTime_Model:
-    def __init__(self):
+    def __init__(self, input_path=None):
         seed = DEFAULT_SEED
 
         torch.manual_seed(seed)
@@ -23,23 +23,26 @@ class Deep_JustInTime_Model:
 
         self.classifier = get_model()
 
-        test_df = retrieve_test_data()
+        if input_path is None:
+            test_df = retrieve_test_data()
+        else:
+            test_df = retrieve_input_data(input_path)
+
         test_data = CocoDataset(test_df)
         self.test_loader = DataLoader(dataset=test_data, batch_size=BATCH_SIZE, shuffle=True)
-        
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.classifier.load_state_dict(torch.load(model_path, map_location=self.device), strict=False)
+        self.classifier.load_state_dict(torch.load(model_path if input_path is not None else model_path_test, map_location=self.device), strict=False)
         self.classifier.to(self.device)
-    def evaluate_test_dataset(self, num_entries=None):
+    def evaluate_test_dataset(self, stats, output_path=None, num_batches=None):
         self.classifier.eval()
         test_loss = 0.0
         predictions = []
         gold_labels = []
 
         with torch.no_grad():
-            print("Size of test dataset: ", len(self.test_loader))
+            print("Size of test dataset: ", len(self.test_loader) * BATCH_SIZE)
             for batch_idx, (sequence, attention_masks, token_type_ids, labels) in enumerate(self.test_loader):
-                if num_entries == batch_idx:
+                if num_batches is not None and num_batches == batch_idx:
                     break
                 print("Batch number: ", batch_idx)
                 sequence = sequence.to(self.device)
@@ -55,8 +58,19 @@ class Deep_JustInTime_Model:
                 predictions.extend(prediction)
                 gold_labels.extend(labels)
         
-        test_loss /= len(self.test_loader)
-        test_metrics = compute_metrics(predictions, gold_labels)
-        test_acc, test_precision, test_f1, test_recall = test_metrics['acc'], test_metrics['precision'], test_metrics['f1'], test_metrics['recall']
-
-        print(f"test_loss: {test_loss:.3f} test_precision: {test_precision:.3f} test_recall: {test_recall:.3f} test_f1: {test_f1:.3f} test_acc: {test_acc:.3f}")
+        predictions = [label.item() for label in predictions]
+        gold_labels = [label.item() for label in gold_labels]
+    
+        with open(os.path.join(output_path, "results.txt"), "w") as output_file:
+            output_file.write(f"Total number of datapoints analyzed: {len(predictions)}\n\n")
+            for i in range(len(predictions)):
+                predicted_label = 'inconsistent' if predictions[i] == 1 else 'consistent'
+                gold_label = 'inconsistent' if gold_labels[i] == 1 else 'consistent'
+                conflict = '(not matching)' if predictions[i] != gold_labels[i] else '(matching)'
+                output_file.write(f"{conflict} Code-comment data batch #{i}: Model found as {predicted_label}, actual is {gold_label}\n")
+            if stats == True:
+                test_loss /= len(self.test_loader)
+                test_metrics = compute_metrics(predictions, gold_labels)
+                test_acc, test_precision, test_f1, test_recall = test_metrics['acc'], test_metrics['precision'], test_metrics['f1'], test_metrics['recall']
+                print(f"\nloss: {test_loss:.3f} precision: {test_precision:.3f} recall: {test_recall:.3f} f1: {test_f1:.3f} acc: {test_acc:.3f}\n")
+                output_file.write(f"\nloss: {test_loss:.3f} precision: {test_precision:.3f} recall: {test_recall:.3f} f1: {test_f1:.3f} acc: {test_acc:.3f}\n")

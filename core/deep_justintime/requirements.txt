@@ -1,6 +1,10 @@
-torch>=2.1.0
+torch==2.1.0
 pandas>=1.5.3
 transformers>=4.38.1
 datasets>=2.18.0
 scikit-learn>=1.2.2
 urllib3<=1.26.15
+dpu_utils>=0.6.1
+nltk>=3.8.1
+pycocoevalcap>=1.2
+torch_scatter>=2.1.2

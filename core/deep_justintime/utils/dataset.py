@@ -77,8 +77,15 @@ class CocoDataset(Dataset):
 #   return valid_df
 
 def retrieve_test_data():
-  test_param = pd.read_json(os.path.join(dataset_path, "Param", "test.json"))
-  test_return = pd.read_json(os.path.join(dataset_path, "Return", "test.json"))
-  test_summary = pd.read_json(os.path.join(dataset_path, "Summary", "test.json"))
+  test_param = pd.read_json(os.path.join(dataset_path, "test_param.json"))
+  test_return = pd.read_json(os.path.join(dataset_path, "test_return.json"))
+  test_summary = pd.read_json(os.path.join(dataset_path, "test_summary.json"))
   test_df = pd.concat([test_param, test_return, test_summary], axis=0)
   return test_df
+
+def retrieve_input_data(input_path):
+  param = pd.read_json(os.path.join(input_path, "param.json"))
+  return_ = pd.read_json(os.path.join(input_path, "return.json"))
+  summary = pd.read_json(os.path.join(input_path, "summary.json"))
+  df = pd.concat([param, return_, summary], axis=0)
+  return df
