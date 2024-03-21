@@ -10,5 +10,6 @@ MAX_LEN = 1024
 ACCUM_ITERS = 8
 NUM_GPUS = 8
 
-dataset_path = os.path.join(os.getcwd(), "core/deep_justintime/dataset")
+dataset_path = os.path.join(os.getcwd(), "data/input")
 model_path = os.path.join(os.getcwd(), "core/deep_justintime/model/model.weights")
+model_path_test = os.path.join(os.getcwd(), "../../core/deep_justintime/model/model.weights")
