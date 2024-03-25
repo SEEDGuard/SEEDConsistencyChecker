@@ -33,7 +33,7 @@ class Deep_JustInTime_Model:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.classifier.load_state_dict(torch.load(model_path if input_path is not None else model_path_test, map_location=self.device), strict=False)
         self.classifier.to(self.device)
-    def evaluate_test_dataset(self, stats, output_path=None, num_batches=None):
+    def evaluate_test_dataset(self, stats, output_path=None, num_batches=None, is_output=False):
         self.classifier.eval()
         test_loss = 0.0
         predictions = []
@@ -41,36 +41,43 @@ class Deep_JustInTime_Model:
 
         with torch.no_grad():
             print("Size of test dataset: ", len(self.test_loader) * BATCH_SIZE)
-            for batch_idx, (sequence, attention_masks, token_type_ids, labels) in enumerate(self.test_loader):
+            for batch_idx, data in enumerate(self.test_loader):
                 if num_batches is not None and num_batches == batch_idx:
                     break
                 print("Batch number: ", batch_idx)
-                sequence = sequence.to(self.device)
-                attention_masks = attention_masks.to(self.device)
-                token_type_ids = token_type_ids.to(self.device)
-                labels = labels.to(self.device)
+                sequence = data[0].to(self.device)
+                attention_masks = data[1].to(self.device)
+                token_type_ids = data[2].to(self.device)
+                
+                if is_output:
+                    labels = data[3].to(self.device)
+                    model_output = self.classifier(sequence, attention_mask=attention_masks, token_type_ids=token_type_ids, labels=labels)
+                    loss, prediction = model_output.loss, model_output.logits
+                    gold_labels.extend(labels)
+                else:
+                    model_output = self.classifier(sequence, attention_mask=attention_masks, token_type_ids=token_type_ids)
+                    loss, prediction = model_output.loss, model_output.logits
 
-                model_output = self.classifier(sequence, attention_mask=attention_masks, token_type_ids=token_type_ids, labels=labels)
-                loss, prediction = model_output.loss, model_output.logits
                 test_loss += loss.item()
                 prediction = torch.argmax(prediction, dim=-1)
-
                 predictions.extend(prediction)
-                gold_labels.extend(labels)
-        
+
         predictions = [label.item() for label in predictions]
-        gold_labels = [label.item() for label in gold_labels]
-    
+        if is_output:
+            gold_labels = [label.item() for label in gold_labels]
+
         with open(os.path.join(output_path, "results.txt"), "w") as output_file:
             output_file.write(f"Total number of datapoints analyzed: {len(predictions)}\n\n")
+            consistent_array = []
             for i in range(len(predictions)):
-                predicted_label = 'inconsistent' if predictions[i] == 1 else 'consistent'
-                gold_label = 'inconsistent' if gold_labels[i] == 1 else 'consistent'
-                conflict = '(not matching)' if predictions[i] != gold_labels[i] else '(matching)'
-                output_file.write(f"{conflict} Code-comment data batch #{i}: Model found as {predicted_label}, actual is {gold_label}\n")
-            if stats == True:
+                if is_output and predictions[i] == 1 and gold_labels[i] == 1:
+                    consistent_array.append(i)
+                elif not is_output and predictions[i] == 1:
+                    consistent_array.append(i)
+            output_file.write(f"Code-comment pairs {consistent_array} are consistent")
+            if stats:
                 test_loss /= len(self.test_loader)
-                test_metrics = compute_metrics(predictions, gold_labels)
+                test_metrics = compute_metrics(predictions, gold_labels) if is_output else compute_metrics(predictions)
                 test_acc, test_precision, test_f1, test_recall = test_metrics['acc'], test_metrics['precision'], test_metrics['f1'], test_metrics['recall']
                 print(f"\nloss: {test_loss:.3f} precision: {test_precision:.3f} recall: {test_recall:.3f} f1: {test_f1:.3f} acc: {test_acc:.3f}\n")
                 output_file.write(f"\nloss: {test_loss:.3f} precision: {test_precision:.3f} recall: {test_recall:.3f} f1: {test_f1:.3f} acc: {test_acc:.3f}\n")

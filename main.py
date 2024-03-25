@@ -25,10 +25,11 @@ def main():
                         help='Name of the method to use')
     parser.add_argument('--num_batches', type=int, help='Analyzes the first n batches (based on BATCH_SIZE in utils/constants.py) within the test dataset', required=False)
     parser.add_argument('--stats', action='store_true', help='Adds stats about the data being tested (accuracy, precision, etc.)')
+    parser.add_argument('--is_output', action='store_true', help='Flag to check if output is provided in dataset')
     args = parser.parse_args()
 
     checker = get_method(args.method, args.input_dir)
-    checker.evaluate_test_dataset(args.stats, args.output_dir, num_batches=args.num_batches)
+    checker.evaluate_test_dataset(args.stats, args.output_dir, num_batches=args.num_batches, is_output=args.is_output)
     
     #call the method object and pass user data
 
