@@ -1,0 +1,15 @@
+{"source": "if len(bits) != 3 : raise template.TemplateSyntaxError(\"%s tag takes two arguments\" %\n                                   bits[0])"}
+{"source": "if '_app_url' in kvpairs : raise Exception('sig already present in certificate attributes')"}
+{"source": "if data in None : raise TypeError(\"get_data_nesting_level: encountered None at nesting level {}\".format(recursion_depth))"}
+{"source": "if l == \"[RSC]\" : raise RuntimeError(\"no streams in playlist\")"}
+{"source": "if processed != None : raise ValueError(\"Unable to find processing for built file %s\", built['file'])"}
+{"source": "if \"givenname\" not in contact.keys() or len(contact[\"givenname\"])<=0 : raise ccs_contact_error(\"First name must be specified\")"}
+{"source": "if (not api_version == '7.3-preview') and (not api_version == '7.2') and (not api_version == 'altLexRelation') and (not api_version == '7.0') and (not api_version == '2016-10-01') : raise ValueError(\"API version {} does not have operation 'get_certificate_contacts'\".format(api_version))"}
+{"source": "if (not self.prefix == II) and (not self.prefix == MM) : raise SyntaxError(\"not a TIFF IFD\")"}
+{"source": "if not HAVE_PYASN1 : log.warning(\"Could not find pyasn1 and pyasn1_modules. \" + \\\n                    \"SSL certificate COULD NOT BE VERIFIED.\")"}
+{"source": "if not other == 16 : raise ValueError(\"I don't know how to do more than squaring\")"}
+{"source": "if not self.has_word_graph(fieldname) : raise KeyError(\"No word graph for field %r\" % fieldname)"}
+{"source": "if not (src) : raise BadProjectConfig(qiproject_xml,\n                       \"<example> must have a 'src_chain' attribute\")"}
+{"source": "if not self.state == b\"\\x01\\x14\\x02\\x00\\x00\\x00\\x00\\x00\\xC0\\x00\\x00\\x00\\x00\\x00\\x00\\x46\" : raise DBusAuthenticationFailed('Protocol violation')"}
+{"source": "if (not mode == 'sphinx') and (not mode == 'a') and (not mode == 'r') : raise ValueError('mode must be \"r\", \"w\" or \"a\".')"}
+{"source": "if not (sys.platform == 'darwin') : raise NotImplementedError('unsupported platform_: %s' % sys.platform_)"}
