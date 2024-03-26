@@ -1,5 +1,45 @@
 # SEEDConsistencyChecker
 
+## Getting Started
+
+### Play with a certain method? (`CMIF` for example)
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/SEEDGuard/SEEDConsistencyChecker.git
+   ```
+2. Install the required dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+
+3. Run the file from `SEEDConsistencyChecker` directory:
+
+   ```
+   cd SEEDConsistencyChecker
+   python main.py --method CMIF --input_dir 'path/to/input/folder/' --output_dir 'path/to/output/folder/'
+   ```
+
+   Output is stored in the `path/to/output/folder/` directory.
+
+### To run the Testing script
+
+Steps 1 and 2 will be the same.
+
+3. Configure the input and output path in `testing.py`:
+
+   ```
+   input_dir = 'path/to/input/folder/'
+   output_dir = 'path/to/output/folder/'
+   ``` 
+
+4. Run the testing script from `SEEDConsistencyChecker` directory:
+
+   ```
+   cd SEEDConsistencyChecker
+   python test/CMIF/testing.py
+   ```
+
 ## Contributing
 
 SEEDConsistencyChecker thrives on community contributions. Whether you're interested in enhancing its security features, expanding the API, or improving the current functionality, your contributions are welcome. Please refer to our contribution guideline at [CONTRIBUTING.md](https://github.com/SEEDGuard/SEEDConsistencyChecker/blob/main/CONTRIBUTING.md) for more information on how to contribute. Also refer to our [Docker](https://github.com/SEEDGuard/SEEDUtils/blob/main/template/Dockerfile) template if you are coming up with new Methods for the task.
