@@ -12,7 +12,8 @@ logger.setLevel(logging.INFO)
 
 def predict(DATA_DIR, DEST_DIR):
     baseModel = 'Salesforce/codet5-small'
-    pretrained_model_path = "core/CMIF/utils/t5_classification_final_ep2.mdl"
+    pretrained_model_path = "/Users/ejazahmed/Documents/SEM2/IS/SEEDConsistencyChecker/core/CMIF/utils/t5_classification_final_ep2.mdl"
+    # pretrained_model_path = "core/CMIF/utils/t5_classification_final_ep2.mdl"
     logger.info('Loading tokenizer: %s, Pretrained Model: %s', baseModel, pretrained_model_path)
 
     tokenizer = RobertaTokenizer.from_pretrained(baseModel)
