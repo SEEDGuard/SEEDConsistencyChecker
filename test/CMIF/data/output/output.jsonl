@@ -1,0 +1,7 @@
+{"source": "if len(bits) != 3 : raise template.TemplateSyntaxError(\"%s tag takes two arguments\" %\n                                   bits[0])"}
+{"source": "if data in None : raise TypeError(\"get_data_nesting_level: encountered None at nesting level {}\".format(recursion_depth))"}
+{"source": "if \"givenname\" not in contact.keys() or len(contact[\"givenname\"])<=0 : raise ccs_contact_error(\"First name must be specified\")"}
+{"source": "if (not self.prefix == II) and (not self.prefix == MM) : raise SyntaxError(\"not a TIFF IFD\")"}
+{"source": "if not HAVE_PYASN1 : log.warning(\"Could not find pyasn1 and pyasn1_modules. \" + \\\n                    \"SSL certificate COULD NOT BE VERIFIED.\")"}
+{"source": "if not self.has_word_graph(fieldname) : raise KeyError(\"No word graph for field %r\" % fieldname)"}
+{"source": "if not self.state == b\"\\x01\\x14\\x02\\x00\\x00\\x00\\x00\\x00\\xC0\\x00\\x00\\x00\\x00\\x00\\x00\\x46\" : raise DBusAuthenticationFailed('Protocol violation')"}

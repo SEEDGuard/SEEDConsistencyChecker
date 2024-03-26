@@ -1,18 +1,26 @@
 # Import your method from core and pass user data
 
 import argparse
+
+from core.CMIF.cmiFinder import CmiFinder
+
+
 # add the imports for your methods
 
 def get_method(method_name):
     # We need to validate here if the input method_name exist in our method or not
     # check your method name
-    if method_name.lower() == 'method_name':
-        # return your method class 
-        return YOUR_METHOD()
-    
+    # if method_name.lower() == 'method_name':
+    #     return your method class
+
+    if method_name.lower() == 'cmif':
+        # return your method class
+        return CmiFinder()
+
     # Add more checkers as needed
     else:
         raise ValueError(f"Invalid method name: {method_name}")
+
 
 def main():
     parser = argparse.ArgumentParser(description='Check Inconsistency in your dataset with a specified methods.')
@@ -26,11 +34,10 @@ def main():
     args = parser.parse_args()
 
     checker = get_method(args.method)
-    
-    #call the method object and pass user data
+
+    # call the method object and pass user data
+    checker.consistency_checker(data_dir=args.input_dir, dest_dir=args.output_dir)
+
 
 if __name__ == "__main__":
     main()
-
-
-
