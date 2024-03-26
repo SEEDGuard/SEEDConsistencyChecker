@@ -1,0 +1,17 @@
+libcst
+GitPython
+requests
+pydriller
+termcolor
+nltk
+openai
+torch
+transformers
+datasets
+tensorflow
+keras
+matplotlib
+scikit-learn
+gensim
+prettytable
+jupyterlab
