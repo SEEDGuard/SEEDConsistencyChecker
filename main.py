@@ -2,7 +2,7 @@
 
 import argparse
 
-from test.CMIF.testing import predict_code_t5
+from core.CMIF.cmiFinder import CmiFinder
 
 
 # add the imports for your methods
@@ -15,11 +15,12 @@ def get_method(method_name):
 
     if method_name.lower() == 'cmif':
         # return your method class
-        return predict_code_t5
-    
+        return CmiFinder()
+
     # Add more checkers as needed
     else:
         raise ValueError(f"Invalid method name: {method_name}")
+
 
 def main():
     parser = argparse.ArgumentParser(description='Check Inconsistency in your dataset with a specified methods.')
@@ -33,12 +34,10 @@ def main():
     args = parser.parse_args()
 
     checker = get_method(args.method)
-    
-    #call the method object and pass user data
-    checker(args.input_dir, args.output_dir)
+
+    # call the method object and pass user data
+    checker.consistency_checker(data_dir=args.input_dir, dest_dir=args.output_dir)
+
 
 if __name__ == "__main__":
     main()
-
-
-
