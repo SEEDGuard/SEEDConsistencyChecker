@@ -2,15 +2,16 @@ import argparse
 import os
 import json
 
+from core.method.utils.preprocessing.embedding import load_fasttext, embed_triplet
+from core.method.utils.preprocessing.prepare_data import clean_tokenize_vectorize_no_shuffle
+from core.method.utils.preprocessing.preprocessing import tokenize_triplets
+from core.method.utils.utils import load_jsonl
+
 parser = argparse.ArgumentParser()
-from preprocessing.prepare_data import clean_tokenize_vectorize_no_shuffle
-from preprocessing.preprocessing import tokenize_triplets
-from preprocessing.embedding import embed_triplet, load_fasttext
 import numpy as np
 from keras.models import load_model
 from transformers.models.t5 import T5ForConditionalGeneration
 from transformers import RobertaTokenizer
-from .utils import load_jsonl
 import tensorflow as tf
 from tensorflow import keras
 
