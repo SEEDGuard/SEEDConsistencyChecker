@@ -20,9 +20,10 @@ def predict_code_t5(inputPath, outputPath):
         generated_ids = model1.generate(inputs.to("cpu"), num_beams=5, max_length=300, num_return_sequences=1)
         for i, beam_output in enumerate(generated_ids):
             fix = tokenizer.decode(beam_output, skip_special_tokens=True)
-            predictions.append(
-                {"source": test_source, "prediction": fix}
-            )
+            if fix.lower() == "consistent":
+                predictions.append(
+                    {"source": test_source}
+                )
         index_c += 1
 
     dump_jsonl(predictions, os.path.join(outputPath,"output.jsonl"))
