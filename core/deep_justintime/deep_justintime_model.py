@@ -28,8 +28,8 @@ class Deep_JustInTime_Model:
         else:
             test_df = retrieve_input_data(input_path)
 
-        test_data = CocoDataset(test_df)
-        self.test_loader = DataLoader(dataset=test_data, batch_size=BATCH_SIZE, shuffle=True)
+        self.test_data = CocoDataset(test_df)
+        self.test_loader = DataLoader(dataset=self.test_data, batch_size=BATCH_SIZE, shuffle=True)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.classifier.load_state_dict(torch.load(model_path if input_path is not None else model_path_test, map_location=self.device), strict=False)
         self.classifier.to(self.device)
@@ -68,13 +68,25 @@ class Deep_JustInTime_Model:
 
         with open(os.path.join(output_path, "results.txt"), "w") as output_file:
             output_file.write(f"Total number of datapoints analyzed: {len(predictions)}\n\n")
-            consistent_array = []
+            consistent_pairs = []
             for i in range(len(predictions)):
                 if is_output and predictions[i] == 1 and gold_labels[i] == 1:
-                    consistent_array.append(i)
+                    consistent_pairs.append(i)
                 elif not is_output and predictions[i] == 1:
-                    consistent_array.append(i)
-            output_file.write(f"Code-comment pairs {consistent_array} are consistent")
+                    consistent_pairs.append(i)
+            consistent_array_length = len(consistent_pairs)
+            if consistent_array_length == 0:
+                output_file.write(f"No consistent pairs found")
+            else:
+                output_file.write(f"{consistent_array_length} consistent pairs found:\n")
+                for i in consistent_pairs:
+                    output_file.write(f"Consistent pair #{i}:\n")
+                    output_file.write(f"Old Comment:\n{self.test_data.df['old_comment_raw'].to_list()[i]}\n")
+                    output_file.write(f"Old Code:\n{self.test_data.df['old_code_raw'].to_list()[i]}\n")
+                    output_file.write(f"New Comment:\n{self.test_data.df['new_comment_raw'].to_list()[i]}\n")
+                    output_file.write(f"New Code:\n{self.test_data.df['new_code_raw'].to_list()[i]}\n")
+                    # output_file.write(f"Different Subtokens:\n{self.test_data.df['span_diff_code_subtokens'].to_list()[i]}\n")
+                    output_file.write(f"\n")
             if stats:
                 test_loss /= len(self.test_loader)
                 test_metrics = compute_metrics(predictions, gold_labels) if is_output else compute_metrics(predictions)

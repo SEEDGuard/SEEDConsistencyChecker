@@ -1,4 +1,119 @@
 Total number of datapoints analyzed: 12
 
-Code-comment pairs [2, 3, 4, 9] are consistent
+4 consistent pairs found:
+Consistent pair #2:
+Old Comment:
+@param createDate
+Old Code:
+    public int delete(Date createDate) {
+        if (null != createDate) {
+            QueryHandler queryHandler = getQueryHandler("delete from SysEmailToken bean");
+            queryHandler.condition("bean.createDate <= :createDate").setParameter("createDate", createDate);
+            return delete(queryHandler);
+        }
+        return 0;
+    }
+
+New Comment:
+@param now
+New Code:
+    public int delete(Date now) {
+        if (null != now) {
+            QueryHandler queryHandler = getQueryHandler("delete from SysEmailToken bean");
+            queryHandler.condition("bean.expiryDate is not null");
+            queryHandler.condition("bean.expiryDate <= :expiryDate").setParameter("expiryDate", now);
+            return delete(queryHandler);
+        }
+        return 0;
+    }
+
+
+Consistent pair #3:
+Old Comment:
+@param key Key to add.
+Old Code:
+    private boolean addLocalKey(K key, long topVer, Collection<K> distributedKeys) throws IgniteCheckedException {
+        GridDistributedCacheEntry<K, V> entry = cctx.colocated().entryExx(key, topVer, false);
+
+        assert !entry.detached();
+
+        if (!cctx.isAll(entry, filter)) {
+            if (log.isDebugEnabled())
+                log.debug("Entry being locked did not pass filter (will not lock): " + entry);
+
+            onComplete(false, false);
+
+            return false;
+        }
+
+        GridCacheMvccCandidate<K> cand = addEntry(entry);
+
+        if (cand != null && !cand.reentry())
+            distributedKeys.add(key);
+
+        return inTx() && cand == null;
+    }
+
+New Comment:
+@param key Key to add.
+New Code:
+    private boolean addLocalKey(KeyCacheObject key, long topVer, Collection<KeyCacheObject> distributedKeys)
+        throws IgniteCheckedException {
+        GridDistributedCacheEntry entry = cctx.colocated().entryExx(key, topVer, false);
+
+        assert !entry.detached();
+
+        if (!cctx.isAll(entry, filter)) {
+            if (log.isDebugEnabled())
+                log.debug("Entry being locked did not pass filter (will not lock): " + entry);
+
+            onComplete(false, false);
+
+            return false;
+        }
+
+        GridCacheMvccCandidate cand = addEntry(entry);
+
+        if (cand != null && !cand.reentry())
+            distributedKeys.add(key);
+
+        return inTx() && cand == null;
+    }
+
+
+Consistent pair #4:
+Old Comment:
+@param metaStore Store.
+Old Code:
+    protected ReuseList createReuseList(int cacheId, PageMemory pageMem, int segments, MetaStore metaStore)
+        throws IgniteCheckedException {
+        return null;
+    }
+
+New Comment:
+@param initNew Init new flag.
+New Code:
+    protected ReuseList createReuseList(int cacheId, PageMemory pageMem, long[] rootIds, boolean initNew)
+        throws IgniteCheckedException {
+        return null;
+    }
+
+
+Consistent pair #9:
+Old Comment:
+@param ctx Cache context.
+Old Code:
+    public static Collection<ClusterNode> allNodes(GridCacheContext ctx, long topOrder) {
+        return ctx.discovery().cacheNodes(ctx.namex(), topOrder);
+    }
+
+New Comment:
+@param ctx Cache context.
+New Code:
+    public static Collection<ClusterNode> allNodes(GridCacheContext ctx, AffinityTopologyVersion topOrder) {
+        return ctx.discovery().cacheNodes(ctx.namex(), topOrder);
+    }
+
+
+
 loss: 0.001 precision: 0.800 recall: 0.800 f1: 0.800 acc: 0.833

@@ -26,6 +26,7 @@ class CocoDataset(Dataset):
       mask_ids = []
       seg_ids = []
       labels = []
+      code_comments = []
 
       code_list = df['span_diff_code_subtokens'].to_list()
       comment_list = df['old_comment_raw'].to_list()
@@ -50,6 +51,7 @@ class CocoDataset(Dataset):
         mask_ids.append(attention_mask_ids)
         seg_ids.append(segment_ids)
         labels.append(label)
+        code_comments.append((code, comment))
 
       token_ids = pad_sequence(token_ids, batch_first=True)
       mask_ids = pad_sequence(mask_ids, batch_first=True)
