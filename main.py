@@ -2,6 +2,7 @@
 
 import argparse
 from core.deep_justintime.deep_justintime_model import *
+from core.MCCL.comment_model import *
 # add the imports for your methods
 
 def get_method(method_name, input_path):
@@ -10,7 +11,8 @@ def get_method(method_name, input_path):
     if method_name.lower() == 'deep_justintime_eval_ds':
         # return your method class 
         return Deep_JustInTime_Model(input_path)
-    
+    if method_name.lower() == 'mccl':
+        return Comment_Model(input_path)
     # Add more checkers as needed
     else:
         raise ValueError(f"Invalid method name: {method_name}")
