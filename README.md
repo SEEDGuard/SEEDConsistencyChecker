@@ -39,6 +39,35 @@ Steps 1 and 2 will be the same.
    cd SEEDConsistencyChecker
    python test/CMIF/testing.py
    ```
+### Using Docker
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/SEEDGuard/SEEDConsistencyChecker.git
+   ```
+2. Make sure you have Docker installed and started, follow if not [Install Docker](https://docs.docker.com/engine/install/).
+
+3. Navigate to the folder consisting of `Dockerfile`
+
+4. Build Docker Image
+   ```
+   docker build --tag your-image-name  .
+   ```
+5. Run the Docker image inside container  
+   Update your-image-name, your_method, dataset according to your configuration. For more info on available methods refer to our [Methods](https://github.com/SEEDGuard/SEEDUtils/blob/main/README.md) list provided in README
+   ```
+   -docker run -it your-image-name --method your_method --input_dir dataset/input/ --output_dir dataset/output/
+   ```
+   Example:
+   
+   ```
+   docker build -t cmif:1.1 .
+   
+   docker run -it cmif:1.1
+   ```
+6. Application is up and running. Output is generated and you can see them in the test folder 
+7. You can see the logs, files, status for the container on the Docker Desktop.
+
 
 ## Contributing
 
