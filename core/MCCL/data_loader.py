@@ -11,10 +11,9 @@ def get_data_splits(input_path, comment_type_str="Return", ignore_ast=False):
        comment_type_str -- Return, Param, Summary, or None (if None, uses all comment types)
        ignore_ast -- Skip loading ASTs (they take a long time)"""
     dataset, high_level_details = load_processed_data(input_path, comment_type_str, ignore_ast)
-    train_examples = dataset['train']
-    valid_examples = dataset['valid']
-    test_examples = dataset['test']
-    return train_examples, valid_examples, test_examples, high_level_details, comment_type_str
+    
+    test_examples = [*dataset['train'], *dataset['valid'], *dataset['test']]
+    return test_examples, high_level_details, comment_type_str
 
 def load_cleaned_test_set(comment_type_str='Return'):
     """Retrieves the ids corresponding to clean examples, for the given comment_type_str.
