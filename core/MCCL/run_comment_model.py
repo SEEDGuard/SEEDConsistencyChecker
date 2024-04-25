@@ -37,7 +37,12 @@ def evaluate(model, test_examples, model_name):
     """Runs evaluation over a given model."""
     print('Evaluating {} examples'.format(len(test_examples)))
     sys.stdout.flush()
-    model.run_evaluation(test_examples, model_name)
+    predictions = model.run_evaluation(test_examples, model_name)
+    
+    with open("predictions_output.txt", "w") as file:
+        for idx, result in enumerate(predictions):
+            file.write("Example {}: {}\n".format(idx, result))
+    print("Output printed to predictions_output.txt")
 
 
 if __name__ == "__main__":
@@ -57,6 +62,10 @@ if __name__ == "__main__":
     test_examples, high_level_details, _ = get_data_splits(args.data_path)
     
     print('Test: {}'.format(len(test_examples)))
+    res = test_examples[:1]
+ 
+    # print result
+    print("The first element in the list is: " + str(res))
 
     if not args.attend_code_sequence_states and not args.attend_code_graph_states:
         raise ValueError('Please specify attention states for detection')

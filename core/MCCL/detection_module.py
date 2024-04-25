@@ -139,6 +139,7 @@ class DetectionModule(nn.Module):
                 log_probs.extend(batch_logprobs.tolist())
 
         self.compute_metrics(test_predictions, test_examples, model_name, log_probs, savePro)
+        return test_predictions
 
     def compute_metrics(self, predicted_labels, test_examples, model_name, log_probs, savePro):
         """Computes evaluation metrics."""
