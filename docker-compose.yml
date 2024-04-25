@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  seedconsistencychecker:
+    image: seedconsistencychecker
+    build:
+      context: .
+      dockerfile: ./Dockerfile
