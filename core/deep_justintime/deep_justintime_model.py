@@ -76,10 +76,19 @@ class Deep_JustInTime_Model:
                     consistent_pairs.append(i)
             consistent_array_length = len(consistent_pairs)
             if consistent_array_length == 0:
+                print(f"No consistent pairs found")
                 output_file.write(f"No consistent pairs found")
             else:
+                print(f"{consistent_array_length} consistent pairs found:\n")
                 output_file.write(f"{consistent_array_length} consistent pairs found:\n")
                 for i in consistent_pairs:
+                    print(f"Consistent pair #{i}:\n")
+                    print(f"Old Comment:\n{self.test_data.df['old_comment_raw'].to_list()[i]}\n")
+                    print(f"Old Code:\n{self.test_data.df['old_code_raw'].to_list()[i]}\n")
+                    print(f"New Comment:\n{self.test_data.df['new_comment_raw'].to_list()[i]}\n")
+                    print(f"New Code:\n{self.test_data.df['new_code_raw'].to_list()[i]}\n")
+                    print("\n")
+
                     output_file.write(f"Consistent pair #{i}:\n")
                     output_file.write(f"Old Comment:\n{self.test_data.df['old_comment_raw'].to_list()[i]}\n")
                     output_file.write(f"Old Code:\n{self.test_data.df['old_code_raw'].to_list()[i]}\n")
