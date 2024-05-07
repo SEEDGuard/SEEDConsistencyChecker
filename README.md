@@ -16,7 +16,7 @@
    ```
    https://drive.google.com/file/d/124tuB-Txg1nfv6mp9oc8ZRg7UhzSjC_M/view?usp=sharing
    ```
-4. Replace the pretrained_model_path variable in the below file location:
+4. Replace the pretrained_model_path variable with the pre-trained weights location in the below file:
    ```
    SEEDConsistencyChecker/core/CMIF/Utils/seed_checker.py
    ```
