@@ -9,11 +9,12 @@ Follow the below guidelines to start.
 3. Understand the paper and identify the related part which will be integrated into this component.
 4. You can **Current Contributors** details, and cordinate with them for help.
 5. Try running provided replication package locally to understand the core implementation.
-6. Organize your code as per [What should your method contain](#what-should-your-method-contain), and follow the [Directory Structure](#directory-structure).
-7. Identify the running environment, related dependencies, libraries and provided all this information by following our [Dependency Details](#dependency-details) guide.
-8. Create a branch as your `name` and raise a Pull Request (PR) with your implementation on the component's repository. Refer to the [Pull Request](https://github.com/SEEDGuard/seedguard.github.io/blob/contribution_branch/CONTRIBUTING.md#repeat-submitting-pull-requests).
-9. Update the Data Format table for the implemented method in the [README](https://github.com/SEEDGuard/SEEDUtils/blob/main/README.md) of the SEEDUtils Repository.
-10. Once everything is done, you've successfully contributed. Great job!
+6. If the trained model checkpoint is already provided, we can directly use them for our inference (no need to train the model again).
+7. Organize your code as per [What should your method contain](#what-should-your-method-contain), and follow the [Directory Structure](#directory-structure).
+8. Identify the running environment, related dependencies, libraries and provided all this information by following our [Dependency Details](#dependency-details) guide.
+9. Create a branch as your `name` and raise a Pull Request (PR) with your implementation on the component's repository. Refer to the [Pull Request](https://github.com/SEEDGuard/seedguard.github.io/blob/contribution_branch/CONTRIBUTING.md#repeat-submitting-pull-requests).
+10. Update the Data Format table for the implemented method in the [README](https://github.com/SEEDGuard/SEEDUtils/blob/main/README.md) of the SEEDUtils Repository.
+11. Once everything is done, you've successfully contributed. Great job!
 
 ## What should your method contain?
 
