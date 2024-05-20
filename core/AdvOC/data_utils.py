@@ -33,6 +33,8 @@ from embedding_store import EmbeddingStore
 from external_cache import (get_num_code_features, get_num_nl_features,
                             is_java_keyword, is_operator, stop_words, tags)
 
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
 nltk.data.path.insert(0, '/data/share/kingxu/nltk_data')
 
 

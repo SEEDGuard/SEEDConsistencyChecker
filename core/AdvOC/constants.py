@@ -26,7 +26,7 @@ NODE_EMBEDDING_SIZE = 64
 MULTI_HEADS = 4
 
 # by time
-DATA_PATH = './'  # TODO
+DATA_PATH = './data_process'  # TODO
 
 # by project
 # DATA_PATH = './'

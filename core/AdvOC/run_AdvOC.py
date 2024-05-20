@@ -43,16 +43,6 @@ def load_model(model, model_path):
     return model
 
 
-def train(model):
-    if torch.cuda.is_available():
-        model.discriminator.cuda()
-        model.classifier.cuda()
-    else:
-        model.discriminator.cpu()
-        model.classifier.cpu()
-    model.run_train()
-
-
 def evaluate(model, model_path):
     model.run_evaluation(model_path)
 
@@ -82,23 +72,4 @@ if __name__ == "__main__":
             model = load_model(model, args.model_path)
         evaluate(model, args.model_path)
         print('Terminating evaluation: {}'.format(datetime.now().strftime("%m/%d/%Y %H:%M:%S")))
-    else:
-        model_path = Path(args.model_path)
-        if model_path.exists():
-            print('Path exists: {}'.format(model_path))
-            exit(0)
-        model_path.mkdir(parents=True)
-        print('Starting training: {}'.format(datetime.now().strftime("%m/%d/%Y %H:%M:%S")))
-        manager1 = ModuleManager(args.seq, args.tree, args.script)
-        manager2 = ModuleManager(args.seq, args.tree, args.script)
-        manager1.initialize()
-        manager2.initialize()
-        model = PredictiveAdversaryNetworks(args.model_path, manager1, manager2)
-        print('Model path: {}'.format(args.model_path))
-        sys.stdout.flush()
-        train(model)
-        print('Terminating training: {}'.format(datetime.now().strftime("%m/%d/%Y %H:%M:%S")))
-        print('Starting evaluation: {}'.format(datetime.now().strftime("%m/%d/%Y %H:%M:%S")))
-        model = load_model(model, args.model_path)
-        evaluate(model, args.model_path)
-        print('Terminating evaluation: {}'.format(datetime.now().strftime("%m/%d/%Y %H:%M:%S")))
+

@@ -104,7 +104,8 @@ class PredictiveAdversaryNetworks():
 
     def load_classifier(self, file):
         print(f'Loading classifier from {file}', flush=True)
-        self.classifier.load_state_dict(torch.load(file), strict=False)
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.classifier.load_state_dict(torch.load(file, map_location=device), strict=False)
 
     def run_train(self):
         embedding_store = self.classifier.manager.embedding_store
@@ -292,33 +293,33 @@ class PredictiveAdversaryNetworks():
             f.write(json.dumps(result) + '\n')
 
 
-        results = []
-        gold_labels = []
-        p_dataset = MyDataset(Path(DATA_PATH), 'test', max_nl_length, max_code_length, max_ast_length, id_to_type)
-        p_sampler = SequentialSampler(p_dataset)
-        test_batches = DataLoader(p_dataset, batch_size, sampler=p_sampler,
-                                  num_workers=6, collate_fn=collate_fn, pin_memory=True)
+        # results = []
+        # gold_labels = []
+        # p_dataset = MyDataset(Path(DATA_PATH), 'test', max_nl_length, max_code_length, max_ast_length, id_to_type)
+        # p_sampler = SequentialSampler(p_dataset)
+        # test_batches = DataLoader(p_dataset, batch_size, sampler=p_sampler,
+        #                           num_workers=6, collate_fn=collate_fn, pin_memory=True)
 
-        with torch.no_grad():
-            for batch in tqdm(test_batches):
-                batch = batch.to_device_new_obj(device)
-                output = self.classifier(batch).view(-1)
-                results.extend(sigmoid(output).tolist())
-                gold_labels.extend(batch.labels.tolist())
-                # if debug_flag:
-                #     break
-        probs = np.array(results)
-        n_probs = 1 - probs
-        probs = np.vstack((n_probs, probs)).transpose()
-        out = Path(model_path)
-        torch.save(torch.from_numpy(probs), str(out / 'result.bin'))
+        # with torch.no_grad():
+        #     for batch in tqdm(test_batches):
+        #         batch = batch.to_device_new_obj(device)
+        #         output = self.classifier(batch).view(-1)
+        #         results.extend(sigmoid(output).tolist())
+        #         gold_labels.extend(batch.labels.tolist())
+        #         # if debug_flag:
+        #         #     break
+        # probs = np.array(results)
+        # n_probs = 1 - probs
+        # probs = np.vstack((n_probs, probs)).transpose()
+        # out = Path(model_path)
+        # torch.save(torch.from_numpy(probs), str(out / 'result.bin'))
 
-        metric = ClfMetric()
-        result = metric.eval(probs, np.array(gold_labels))
-        print(result)
-        with open(out / 'eval.log', 'a') as f:
-            f.write(datetime.now().strftime("%m/%d/%Y %H:%M:%S:"))
-            f.write(json.dumps(result) + '\n')
+        # metric = ClfMetric()
+        # result = metric.eval(probs, np.array(gold_labels))
+        # print(result)
+        # with open(out / 'eval.log', 'a') as f:
+        #     f.write(datetime.now().strftime("%m/%d/%Y %H:%M:%S:"))
+        #     f.write(json.dumps(result) + '\n')
 
     def pretrain_discriminator(self):
         self.classifier = None
