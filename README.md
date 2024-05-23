@@ -2,6 +2,9 @@
 
 ## Contents
 - [Getting Started](#getting-Started)
+   - [Play With a Certain Method](#play-with-a-certain-method?-(`CMIF`-for-example))
+   - [Run the Testing Script](#to-run-the-Testing-script)
+   - [Using Docker](#using-docker)
 - [Contributing](#contributing)
 - [Paper List](#paper-list)
 
