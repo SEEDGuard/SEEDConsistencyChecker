@@ -43,33 +43,40 @@ def load_model(model, model_path):
     return model
 
 
-def evaluate(model, model_path):
-    model.run_evaluation(model_path)
+def evaluate(model, model_path,input_dir,output_dir):
+    model.run_evaluation(model_path, input_dir, output_dir)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--seq', action='store_true', help='use edit seq for detection')
-    parser.add_argument('--tree', action='store_true', help='use edit tree for detection')
-    parser.add_argument('--script', action='store_true', help='use edit script for detection')
-    parser.add_argument('--test_mode', action='store_true', help='whether to run evaluation')
-    parser.add_argument('--model_path', help='path to save model (training) or path to saved model (evaluation)')
-    parser.add_argument('--model_file', default='', help='the model to be evaluated!')
+    parser.add_argument('--seq', default=True, action='store_true', help='use edit seq for detection')
+    parser.add_argument('--tree',default=True,  action='store_true', help='use edit tree for detection')
+    parser.add_argument('--script', default=True, action='store_true', help='use edit script for detection')
+    parser.add_argument('--test_mode',default=True, action='store_true', help='whether to run evaluation')
+    parser.add_argument('--model_path', default = 'model', help='path to save model (training) or path to saved model (evaluation)')
+    parser.add_argument('--model_file', default='core/AdvOC/model/classifier.pt', help='the model to be evaluated!')
+    parser.add_argument('--input_dir', help='path to the input directory')
+    parser.add_argument('--output_dir', help='path to the output directory')
+    
     args = parser.parse_args()
 
     setup_seed(22)
 
     if args.test_mode:
         print('Starting evaluation: {}'.format(datetime.now().strftime("%m/%d/%Y %H:%M:%S")))
+        print(type(args.seq), args.seq)
+        print(type(args.tree), args.tree)
+        print(type(args.script), args.script)
+        
         manager1 = ModuleManager(args.seq, args.tree, args.script)
         manager2 = ModuleManager(args.seq, args.tree, args.script)
         manager1.initialize()
         manager2.initialize()
         model = PredictiveAdversaryNetworks(args.model_path, manager1, manager2)
-        if args.model_file:
-            model.load_classifier(args.model_file)
-        else:
-            model = load_model(model, args.model_path)
-        evaluate(model, args.model_path)
+        # if args.model_file:
+        model.load_classifier(args.model_file)
+        # else:
+        #     model = load_model(model, args.model_path)
+        evaluate(model, args.model_path, args.input_dir, args.output_dir)
         print('Terminating evaluation: {}'.format(datetime.now().strftime("%m/%d/%Y %H:%M:%S")))
 

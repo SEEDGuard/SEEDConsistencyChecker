@@ -26,12 +26,12 @@ NODE_EMBEDDING_SIZE = 64
 MULTI_HEADS = 4
 
 # by time
-DATA_PATH = './data_process'  # TODO
+DATA_PATH = 'core/AdvOC/data_process'  # TODO
 
 # by project
 # DATA_PATH = './'
 
-AST_TYPE_DICT = 'data_process/ast_type_dict.json'
+AST_TYPE_DICT = 'core/AdvOC/data_process/ast_type_dict.json'
 
 
 graph_flag = True

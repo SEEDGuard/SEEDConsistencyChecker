@@ -20,6 +20,7 @@ class MyDataset(Dataset):
         self.mcl = max_code_length
         self.mal = max_ast_length
         self.itt = id_to_type
+        dir =  Path(dir)
 
         self.seq = []
         self.tree = []

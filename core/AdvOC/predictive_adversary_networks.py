@@ -247,7 +247,7 @@ class PredictiveAdversaryNetworks():
             if stop_train:
                 break
 
-    def run_evaluation(self, model_path):
+    def run_evaluation(self, model_path, input_dir,output_dir):
         self.discriminator = None
         self.classifier.eval()
         embedding_store = self.classifier.manager.embedding_store
@@ -266,7 +266,7 @@ class PredictiveAdversaryNetworks():
         collate_fn = partial(build_batch, embedding_store=embedding_store,
                              max_nl_length=max_nl_length, max_code_length=max_code_length, max_ast_length=max_ast_length,
                              max_script_length=MAX_SCRIPT_LENGTH, max_subtokens=MAX_SUBTOKENS)
-        p_dataset = MyDataset(Path(DATA_PATH), 'verified_test', max_nl_length, max_code_length, max_ast_length, id_to_type)
+        p_dataset = MyDataset(input_dir, 'verified_test', max_nl_length, max_code_length, max_ast_length, id_to_type)
         p_sampler = SequentialSampler(p_dataset)
         test_batches = DataLoader(p_dataset, batch_size, sampler=p_sampler,
                                   num_workers=6, collate_fn=collate_fn, pin_memory=True)
@@ -282,13 +282,14 @@ class PredictiveAdversaryNetworks():
         probs = np.array(results)
         n_probs = 1 - probs
         probs = np.vstack((n_probs, probs)).transpose()
-        out = Path(model_path)
-        torch.save(torch.from_numpy(probs), str(out / 'result.bin'))
+        # out = Path(model_path)
+        output_dir = Path(output_dir)
+        torch.save(torch.from_numpy(probs), str(output_dir / 'result.bin'))
 
         metric = ClfMetric()
         result = metric.eval(probs, np.array(gold_labels))
         print(result)
-        with open(out / 'eval.log', 'a') as f:
+        with open(output_dir / 'eval.log', 'a') as f:
             f.write(datetime.now().strftime("%m/%d/%Y %H:%M:%S:"))
             f.write(json.dumps(result) + '\n')
 
