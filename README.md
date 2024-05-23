@@ -1,5 +1,10 @@
 # SEEDConsistencyChecker
 
+## Contents
+- [Getting Started](#etting-Started)
+- [Contributing](#contrinuting)
+- [Paper List](#paper-list)
+
 ## Getting Started
 
 ### Play with a certain method? (`CMIF` for example)
