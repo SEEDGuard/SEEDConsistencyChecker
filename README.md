@@ -1,8 +1,8 @@
 # SEEDConsistencyChecker
 
 ## Contents
-- [Getting Started](#etting-Started)
-- [Contributing](#contrinuting)
+- [Getting Started](#getting-Started)
+- [Contributing](#contributing)
 - [Paper List](#paper-list)
 
 ## Getting Started
