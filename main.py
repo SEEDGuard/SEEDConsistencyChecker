@@ -1,21 +1,28 @@
 # Import your method from core and pass user data
 
 import argparse
-from core.deep_justintime.deep_justintime_model import *
+
+from core.CMIF.cmiFinder import CmiFinder
 from core.MCCL.comment_model import *
+
 # add the imports for your methods
 
 def get_method(method_name, input_path):
     # We need to validate here if the input method_name exist in our method or not
     # check your method name
-    if method_name.lower() == 'deep_justintime_eval_ds':
-        # return your method class 
-        return Deep_JustInTime_Model(input_path)
+    # if method_name.lower() == 'method_name':
+    #     return your method class
+
+    if method_name.lower() == 'cmif':
+        # return your method class
+        return CmiFinder()
     if method_name.lower() == 'mccl':
         return Comment_Model(input_path)
+
     # Add more checkers as needed
     else:
         raise ValueError(f"Invalid method name: {method_name}")
+
 
 def main():
     parser = argparse.ArgumentParser(description='Check for inconsistencies in your dataset with specified methods.')
@@ -29,13 +36,11 @@ def main():
     parser.add_argument('--stats', action='store_true', help='Adds stats about the data being tested (accuracy, precision, etc.)')
     args = parser.parse_args()
 
-    checker = get_method(args.method, args.input_dir)
-    checker.evaluate_test_dataset(args.stats, args.output_dir, num_batches=args.num_batches)
-    
-    #call the method object and pass user data
+    checker = get_method(args.method)
+
+    # call the method object and pass user data
+    checker.consistency_checker(data_dir=args.input_dir, dest_dir=args.output_dir)
+
 
 if __name__ == "__main__":
     main()
-
-
-
