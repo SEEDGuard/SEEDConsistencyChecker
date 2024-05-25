@@ -7,7 +7,6 @@ import torch
 sys.path.append('comment_update')
 from detection_module import DetectionModule
 from data_loader import get_data_splits
-from module_manager import ModuleManager
 from constants import *
 
 def build_model(model_path, manager):
@@ -34,28 +33,16 @@ def load_model(model_path):
             c.cpu()
     return model
 
-def train(model, train_examples, valid_examples):
-    """Trains a model."""
-    print('Training with {} examples (validation {})'.format(len(train_examples), len(valid_examples)))
-    sys.stdout.flush()
-    if torch.cuda.is_available():
-        model.torch_device_name = 'gpu'
-        model.cuda()
-        for c in model.children():
-            c.cuda()
-    else:
-        model.torch_device_name = 'cpu'
-        model.cpu()
-        for c in model.children():
-            c.cpu()
-    
-    model.run_train(train_examples, valid_examples)
-
 def evaluate(model, test_examples, model_name):
     """Runs evaluation over a given model."""
     print('Evaluating {} examples'.format(len(test_examples)))
     sys.stdout.flush()
-    model.run_evaluation(test_examples, model_name)
+    predictions = model.run_evaluation(test_examples, model_name)
+    
+    with open("predictions_output.txt", "w") as file:
+        for idx, result in enumerate(predictions):
+            file.write("Example {}: {}\n".format(idx, result))
+    print("Output printed to predictions_output.txt")
 
 
 if __name__ == "__main__":
@@ -70,14 +57,15 @@ if __name__ == "__main__":
     parser.add_argument('--data_path', help='path to input dataset')
     args = parser.parse_args()
 
-    train_examples, valid_examples, test_examples, high_level_details, _ = get_data_splits(args.data_path)
-    if args.positive_only:
-        train_examples = [ex for ex in train_examples if ex.label == 1]
-        valid_examples = [ex for ex in valid_examples if ex.label == 1]
+    # We should only need all examples to be test examples right?
+    # Also all of these datapoints have labels for if they are inconsistent or not
+    test_examples, high_level_details, _ = get_data_splits(args.data_path)
     
-    print('Train: {}'.format(len(train_examples)))
-    print('Valid: {}'.format(len(valid_examples)))
     print('Test: {}'.format(len(test_examples)))
+    res = test_examples[:1]
+ 
+    # print result
+    print("The first element in the list is: " + str(res))
 
     if not args.attend_code_sequence_states and not args.attend_code_graph_states:
         raise ValueError('Please specify attention states for detection')
@@ -89,16 +77,3 @@ if __name__ == "__main__":
         evaluate(model, test_examples, args.model_name)
         
         print('Terminating evaluation: {}'.format(datetime.now().strftime("%m/%d/%Y %H:%M:%S")))
-    else:
-        print('Starting training: {}'.format(datetime.now().strftime("%m/%d/%Y %H:%M:%S")))
-        
-        manager = ModuleManager(args.attend_code_sequence_states, args.attend_code_graph_states, args.features)
-        manager.initialize(train_examples)
-        model = build_model(args.model_path, manager)
-
-        print('Model path: {}'.format(args.model_path))
-        sys.stdout.flush()
-        
-        train(model, train_examples, valid_examples)
-        
-        print('Terminating training: {}'.format(datetime.now().strftime("%m/%d/%Y %H:%M:%S")))

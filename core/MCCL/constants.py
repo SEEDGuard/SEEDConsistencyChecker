@@ -36,16 +36,16 @@ NUM_TRANSFORMER_LAYERS = 2
 
 # Download data from here: https://drive.google.com/drive/folders/1heqEQGZHgO6gZzCjuQD1EyYertN4SAYZ?usp=sharing
 # DATA_PATH should point to the location in which the above data is saved locally
-DEFAULT_DATA_PATH = './core/MCCL/data/RealData/public-inconsistency-detection-data' 
+DEFAULT_DATA_PATH = '../../data/RealData/public-inconsistency-detection-data' 
 #DATA_PATH = '../ExampleData/inconsistency-detection-data' 
 DEFAULT_RESOURCES_PATH = os.path.join(DEFAULT_DATA_PATH, 'resources')
 
 # Download model resources from here: https://drive.google.com/drive/folders/1cutxr4rMDkT1g2BbmCAR2wqKTxeFH11K?usp=sharing
 # MODEL_RESOURCES_PATH should point to the location in which the above resources are saved locally.
-MODEL_RESOURCES_PATH = './core/MCCL/data/RealData/inconsistency-detection-model-resources' # TODO
+MODEL_RESOURCES_PATH = '../../data/RealData/inconsistency-detection-model-resources' # TODO
 NL_EMBEDDING_PATH = os.path.join(MODEL_RESOURCES_PATH, 'nl_embeddings.json')
 CODE_EMBEDDING_PATH = os.path.join(MODEL_RESOURCES_PATH, 'code_embeddings.json')
 FULL_GENERATION_MODEL_PATH = os.path.join(MODEL_RESOURCES_PATH, 'generation-model.pkl.gz')
 
 # Should point to where the output is to be saved
-DETECTION_DIR = '../output' # TODO
+DETECTION_DIR = '../../data'
