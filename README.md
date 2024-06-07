@@ -54,14 +54,20 @@ Steps 1 and 2 will be the same.
    git clone https://github.com/SEEDGuard/SEEDConsistencyChecker.git
    ```
 2. Make sure you have Docker installed and started, follow if not [Install Docker](https://docs.docker.com/engine/install/).
+3. Replace the pretrained_model_path variable with the pre-trained weights location in the below file:
+   ```
+   SEEDConsistencyChecker/core/CMIF/Utils/seed_checker.py
+   pretrained_model_path = "/app/core/CMIF/utils/t5_classification_final_ep2.mdl"
+   ```
 
-3. Navigate to the folder consisting of `Dockerfile`
 
-4. Build Docker Image
+4. Navigate to the folder consisting of `Dockerfile`
+
+5. Build Docker Image
    ```
    docker build --tag your-image-name  .
    ```
-5. Run the Docker image inside container  
+6. Run the Docker image inside container  
    Update your-image-name, your_method, dataset according to your configuration. For more info on available methods refer to our [Methods](https://github.com/SEEDGuard/SEEDUtils/blob/main/README.md) list provided in README
    ```
    -docker run -it your-image-name --method your_method --input_dir dataset/input/ --output_dir dataset/output/
@@ -73,8 +79,8 @@ Steps 1 and 2 will be the same.
    
    docker run -it cmif:1.1
    ```
-6. Application is up and running. Output is generated and you can see them in the test folder 
-7. You can see the logs, files, status for the container on the Docker Desktop.
+7. Application is up and running. Output is generated and you can see them in the test folder 
+8. You can see the logs, files, status for the container on the Docker Desktop.
 
 
 ## Contributing
