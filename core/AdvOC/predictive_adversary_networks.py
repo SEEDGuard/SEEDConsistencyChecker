@@ -266,7 +266,7 @@ class PredictiveAdversaryNetworks():
         collate_fn = partial(build_batch, embedding_store=embedding_store,
                              max_nl_length=max_nl_length, max_code_length=max_code_length, max_ast_length=max_ast_length,
                              max_script_length=MAX_SCRIPT_LENGTH, max_subtokens=MAX_SUBTOKENS)
-        p_dataset = MyDataset(input_dir, 'verified_test', max_nl_length, max_code_length, max_ast_length, id_to_type)
+        p_dataset = MyDataset(input_dir, 'sampledata', max_nl_length, max_code_length, max_ast_length, id_to_type)
         p_sampler = SequentialSampler(p_dataset)
         test_batches = DataLoader(p_dataset, batch_size, sampler=p_sampler,
                                   num_workers=6, collate_fn=collate_fn, pin_memory=True)

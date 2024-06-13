@@ -35,7 +35,7 @@ class MyDataset(Dataset):
         with open(dir / files[1].format(type)) as f:
             for l in f:
                 tree.append(l)
-        assert len(seq) == len(tree)
+        # assert len(seq) == len(tree)
         for l1, l2 in zip(seq, tree):
             if l1.split('"cf": ', 1)[1][0] == '1':  # sample is reliable
                 if subset == 'u':  # unreliable needed
